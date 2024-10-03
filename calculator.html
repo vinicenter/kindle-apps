@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        input[type="text"] {
+            width: 100%;
+            font-size: 2em;
+            border: 2px solid #000;
+            margin-bottom: 20px;
+            background-color: #fff;
+        }
+        button {
+            width: 20%;
+            padding: 15px;
+            font-size: 1.5em;
+            margin: 2%;
+            border: 2px solid #000;
+            background-color: #fff;
+            color: #000;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        button:hover {
+            background-color: #f0f0f0;
+        }
+        button:active {
+            transform: translateY(1px);
+        }
+        .button-row {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="content">
+    <div style="display: flex; margin-bottom: 20px">
+        <a style="color: black;" href="./">< Back to home</a>
+    </div>
+
+    <h1>Calculator</h1>
+
+    <input type="text" id="display" readonly />
+    <div class="button-row">
+        <button onclick="append('7')">7</button>
+        <button onclick="append('8')">8</button>
+        <button onclick="append('9')">9</button>
+        <button onclick="setOperation('/')">/</button>
+    </div>
+    <div class="button-row">
+        <button onclick="append('4')">4</button>
+        <button onclick="append('5')">5</button>
+        <button onclick="append('6')">6</button>
+        <button onclick="setOperation('*')">*</button>
+    </div>
+    <div class="button-row">
+        <button onclick="append('1')">1</button>
+        <button onclick="append('2')">2</button>
+        <button onclick="append('3')">3</button>
+        <button onclick="setOperation('-')">-</button>
+    </div>
+    <div class="button-row">
+        <button onclick="clearDisplay()">C</button>
+        <button onclick="append('0')">0</button>
+        <button onclick="calculate()">=</button>
+        <button onclick="setOperation('+')">+</button>
+    </div>
+</div>
+
+<script>
+    let display = document.getElementById('display');
+    let firstOperand = null;
+    let currentOperation = null;
+
+    function append(number) {
+        display.value += number;
+    }
+
+    function clearDisplay() {
+        display.value = '';
+        firstOperand = null;
+        currentOperation = null;
+    }
+
+    function setOperation(operation) {
+        if (display.value === '') return;
+        if (firstOperand === null) {
+            firstOperand = parseFloat(display.value);
+        } else if (currentOperation) {
+            calculate();
+        }
+        currentOperation = operation;
+        display.value = '';
+    }
+
+    function calculate() {
+        if (firstOperand === null || display.value === '') return;
+        const secondOperand = parseFloat(display.value);
+        switch (currentOperation) {
+            case '+':
+                display.value = firstOperand + secondOperand;
+                break;
+            case '-':
+                display.value = firstOperand - secondOperand;
+                break;
+            case '*':
+                display.value = firstOperand * secondOperand;
+                break;
+            case '/':
+                display.value = firstOperand / secondOperand;
+                break;
+        }
+        firstOperand = null;
+        currentOperation = null;
+    }
+</script>
+
+</body>
+</html>
